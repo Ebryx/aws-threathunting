@@ -6,4 +6,6 @@
 ## **aws-cloudwatch_alarm_to_rds**:
 - Sends alarms from Cloudwatch to Slack via Lambda function
 ## **aws-role_credentials_leakage_monitor**:
-- Monitors role credentials leakage from CloudTrail logs in ELK stack
+- Monitors role credentials leakage from:
+  - CloudTrail logs in ELK stack
+  - Account ENIs and EIPs
