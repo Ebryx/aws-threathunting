@@ -19,13 +19,16 @@ def lambda_handler(event, context):
 def parsed_msg(msg_dict, appender=''):
     slack_msg_parsed = ''
     for key, val in msg_dict.items():
-        if type(val) is not list and type(val) is not dict:
-            slack_msg_parsed += '`{0}_{1}`: *{2}*\n'.format(appender, key, val)
-        elif type(val) == list:
-            slack_msg_parsed += parsed_msg(val[0], appender='{0}_{1}'.format(appender, key))
-        elif type(val) == dict:
-            slack_msg_parsed += parsed_msg(val, appender='{0}_{1}'.format(appender, key))
-        else: print('Passing key: "{0}", value: "{1}" pair')
+        try:
+            if type(val) is not list and type(val) is not dict:
+                slack_msg_parsed += '`{0}_{1}`: *{2}*\n'.format(appender, key, val)
+            elif type(val) == list:
+                slack_msg_parsed += parsed_msg(val[0], appender='{0}_{1}'.format(appender, key))
+            elif type(val) == dict:
+                slack_msg_parsed += parsed_msg(val, appender='{0}_{1}'.format(appender, key))
+            else: print('Passing key: "{0}", value: "{1}" pair')
+        except Exception as e:
+            print('Exception "{0}" occurred in for loop in parsed_msg, when parsing \nkey "{1}" and \nvalue {2}'.format(e, key, val))
     return slack_msg_parsed
 
 
@@ -52,4 +55,4 @@ def report_to_slack(msg):
         result = requests.post(default_vars_dict['slack_webhook'], data=json.dumps(slack_message_to_post), headers = {'Content-Type' :'application/json'})
         print('Posted to slack "{0}"'.format(result.text))
     except Exception as e:
-        print('Exception "{0}" occurred in report_to_slack'.format(e))
+        print('Exception "{0}" occurred in report_to_slack when reporting msg \n"{1}"'.format(e, msg))
