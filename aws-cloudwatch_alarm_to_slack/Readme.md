@@ -8,7 +8,7 @@
 	4. An SNS topic that receives Cloudwatch alarms
 
 # Execution Flow
-	Cloudwatch Alarm 1 -> SNS Topic -> Lambda
+	Cloudwatch Alarms -> My SNS Topic -> Lambda
 
 # Execution
 	1. Lambda will be invoked once a Cloudwatch alarm is triggered
