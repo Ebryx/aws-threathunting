@@ -1,0 +1,5 @@
+boto3
+elasticsearch
+ipaddress
+requests
+OTXv2
