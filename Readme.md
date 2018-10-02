@@ -9,5 +9,5 @@
 - Monitors role credentials leakage from:
   - CloudTrail logs in ELK stack
   - Account ENIs and EIPs
-## **aws-threatintel_vpc_flow_logs**: (in-progress)
+## **aws-threatintel_vpc_flow_logs**: *(in-progress)*
 - Gathers threat intelligence for bad reputed IPs from VPC flow logs
