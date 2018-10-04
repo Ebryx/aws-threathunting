@@ -1,5 +1,5 @@
 # Description
-	Lambda function that periodically checks if AWS API calls have been made from honey tokens/fake users and alerts on Slack
+	Lambda function that periodically checks if trap keys set have been compromised, i.e: used to make any AWS API call and alert on Slack
 
 # Requirements
 - python3 libraries mentioned in requirements.txt
