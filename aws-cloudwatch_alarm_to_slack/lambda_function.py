@@ -57,6 +57,16 @@ def report_to_slack(msg):
         slack_message_to_post = {
             "attachments" : [
                 {
+                    'color': '#00ffff',
+                    # 'pretext': 'pretext_here',
+                    'title': 'Cloudwatch Alarm',
+                    # 'text': json.dumps(msg),
+                    # 'text': json.dumps(msg['Records'][0]['Sns']),
+                    'text': m_parsed_msg,
+                    # 'text': '',
+                    'fallback': 'Cloudwatch alarm has triggered for an RDS instance'
+                },
+                {
                     'color': '#ff0000',
                     # 'pretext': 'pretext_here',
                     'title': 'Cloudwatch Alarm',

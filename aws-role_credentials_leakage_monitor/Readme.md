@@ -9,6 +9,7 @@
 	Requires a role or AWS Access key with IAM permission to: 
 		ec2:DescribeNetworkInterfaces
 		ec2:DescribeAddresses
+		config:GetResourceConfigHistory
 
 # Execution:
 	Point the script to the CloudTrail Index in Elasticsearch cluster to execute it
