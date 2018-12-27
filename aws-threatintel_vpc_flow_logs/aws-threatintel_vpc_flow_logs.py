@@ -44,9 +44,6 @@ index = {
 }
 
 logs = {}
-
-# suspiciousIPs= ["82.211.34.104","82.211.30.251","82.211.30.249","82.211.31.232","84.200.210.133","87.239.255.24"]
-#suspiciousIPs=["82","84","87","195"]
 vpcs = {
     'Vpcs': {}
 }
@@ -68,7 +65,7 @@ def get_es_obj():
 
 
 def slack_message(slack_text):
-    ssense_webhook = "https://hooks.slack.com/services/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"
+    ssense_webhook = "https://hooks.slack.com/services/T065X3U2Y/B7BSR1MKJ/"
     DATE_CONVERT = datetime.now()
     date_tweet = DATE_CONVERT.strftime("%m-%d-%Y|%H:%M:%S")
 
