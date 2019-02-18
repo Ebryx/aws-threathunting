@@ -65,7 +65,7 @@ def get_es_obj():
 
 
 def slack_message(slack_text):
-    ssense_webhook = "https://hooks.slack.com/services/B7BSR1MKJ/..."
+    ssense_webhook = "https://hooks.slack.com/services/.../..."
     DATE_CONVERT = datetime.now()
     date_tweet = DATE_CONVERT.strftime("%m-%d-%Y|%H:%M:%S")
 
