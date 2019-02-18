@@ -1,8 +1,11 @@
 import json
 import requests
+from pprint import pprint
 
 #####Global Vars#######
-default_vars_dict = {'slack_webhook': 'incoming_webhook'}
+default_vars_dict = {
+        'slack_webhook': 'https://hooks.slack.com/services/.../...'
+    }
 #######################
 
 # sends data to slack
@@ -10,7 +13,7 @@ default_vars_dict = {'slack_webhook': 'incoming_webhook'}
 def lambda_handler(event, context):
     # TODO implement
     print('Passed Event: ')
-    print(event)
+    pprint(event)
     report_to_slack(event)
     return {
         "statusCode": 200,
@@ -53,34 +56,34 @@ def report_to_slack(msg):
     try:
         print('Preparing slack message request')
         m_parsed_msg = parsed_msg(msg)
-        print('The parsed message is as follows: \n{0}'.format(m_parsed_msg))
+        # print('The parsed message is as follows: \n{0}'.format(m_parsed_msg))
+        print('Message has been parsed successfully')
+        title_part = ''
+        fallback_part = ''
+        try: 
+            title_part = msg['Records'][0]['Sns']['Subject']
+        except Exception as e: 
+            print('Exception "{0}" occurred while setting title_part'.format(e))
         slack_message_to_post = {
             "attachments" : [
                 {
-                    'color': '#00ffff',
-                    # 'pretext': 'pretext_here',
-                    'title': 'Cloudwatch Alarm',
-                    # 'text': json.dumps(msg),
-                    # 'text': json.dumps(msg['Records'][0]['Sns']),
-                    'text': m_parsed_msg,
-                    # 'text': '',
-                    'fallback': 'Cloudwatch alarm has triggered for an RDS instance'
-                },
-                {
                     'color': '#ff0000',
                     # 'pretext': 'pretext_here',
-                    'title': 'Cloudwatch Alarm',
+                    'title': title_part,
                     # 'text': json.dumps(msg),
                     # 'text': json.dumps(msg['Records'][0]['Sns']),
                     'text': m_parsed_msg,
                     # 'text': '',
-                    'fallback': 'Cloudwatch alarm has triggered for an RDS instance'
+                    # 'fallback': 'Testing'
+                    'fallback': title_part
                 }
             ]
         }
         print('Slack message post has been prepared: ')
         print(slack_message_to_post)
         result = requests.post(default_vars_dict['slack_webhook'], data=json.dumps(slack_message_to_post), headers = {'Content-Type' :'application/json'})
+        print('Alamr Name print:')
+        print(title_part)
         print('Posted to slack "{0}"'.format(result.text))
     except Exception as e:
         print('Exception "{0}" occurred in report_to_slack when reporting msg \n"{1}"'.format(e, msg))
