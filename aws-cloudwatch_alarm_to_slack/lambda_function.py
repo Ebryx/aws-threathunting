@@ -218,11 +218,7 @@ def lambda_handler(event, context):
             im.write(image['data'])
             im.close()
 
-            s3 = boto3.client(
-                's3',
-                aws_access_key_id=os.environ.get('ACCESS_KEY_ID'),
-                aws_secret_access_key=os.environ.get('SECRET_ACCESS_KEY'))
-
+            s3 = boto3.client('s3')
             bucket = s3path.split('.com/')[1].split('/')[0].strip('/')
             path = s3path.split(bucket)[-1]
             path = os.path.join(path, im_name).lstrip('/')
@@ -245,7 +241,5 @@ def lambda_handler(event, context):
             'message': 'GTS Lambda executed successfully!'})
     }
 
-
 if __name__ == "__main__":
-
     lambda_handler(dict(), dict())
