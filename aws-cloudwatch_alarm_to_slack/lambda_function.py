@@ -1,6 +1,7 @@
 import os
 import json
 import time
+import base64
 import logging
 
 import boto3
@@ -90,7 +91,10 @@ def report_to_slack(msg, images):
 
         logger.debug('Slack message post \n: %s' % (slack_message_to_post))
         result = requests.post(
-            base64.b64decode(base64.b64decode(base64.b64decode(os.environ.get('SCK_WHK')))).decode(),
+            base64.b64decode(
+                base64.b64decode(
+                    base64.b64decode(os.environ.get('SCK_WHK')))
+                ).decode(),
             data=json.dumps(slack_message_to_post),
             headers={'Content-Type': 'application/json'})
 
@@ -213,7 +217,8 @@ def lambda_handler(event, context):
             if not image:
                 continue
 
-            im_name = 'image_%s.png' % (str(time.time()).replace('.', ''))
+            im_name = os.path.join('/tmp', 'image_%s.png' % (
+                str(time.time()).replace('.', '')))
             im = open(im_name, 'wb')
             im.write(image['data'])
             im.close()
@@ -226,13 +231,13 @@ def lambda_handler(event, context):
             s3.upload_file(im_name, bucket, path,
                            ExtraArgs={'ACL': 'public-read'})
 
-            image['url'] = os.path.join(s3path, im_name) 
+            image['url'] = os.path.join(s3path, im_name)
             os.remove(im_name)
 
     if not os.environ.get('SCK_WHK'):
         logger.info('SCK_WHK environment variable not found. '
                     'Skipping push to slack.')
-    else:    
+    else:
         report_to_slack(event, images)
 
     return {
