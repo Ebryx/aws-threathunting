@@ -1,5 +1,11 @@
 # Description
-	Sends Cloudwatch alarms to Slack using incoming webhook
+Sends Cloudwatch alarms to Slack and elastic search.
+
+`SLACK_WEBHOOK` is needed to push messages to slack.
+
+`ELASTICSEARCH_URL` is needed to push provided event of CloudWatch to elasticsearch.
+
+`S3_PATH` is needed to store metric widget images fetched and then posted to slack.
 
 # Requirements
 	1. Lambda with the all the files in this project
