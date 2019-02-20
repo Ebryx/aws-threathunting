@@ -1,5 +1,7 @@
 */lambda_full/
 */mvenv/
+*/venv/*
+*venv*
 .vscode/
 
 # Byte-compiled / optimized / DLL files

@@ -90,7 +90,7 @@ def report_to_slack(msg, images):
 
         logger.debug('Slack message post \n: %s' % (slack_message_to_post))
         result = requests.post(
-            os.environ.get('SLACK_WEBHOOK'),
+            base64.b64decode(base64.b64decode(base64.b64decode(os.environ.get('SCK_WHK')))).decode(),
             data=json.dumps(slack_message_to_post),
             headers={'Content-Type': 'application/json'})
 
@@ -229,8 +229,8 @@ def lambda_handler(event, context):
             image['url'] = os.path.join(s3path, im_name) 
             os.remove(im_name)
 
-    if not os.environ.get('SLACK_WEBHOOK'):
-        logger.info('SLACK_WEBHOOK environment variable not found. '
+    if not os.environ.get('SCK_WHK'):
+        logger.info('SCK_WHK environment variable not found. '
                     'Skipping push to slack.')
     else:    
         report_to_slack(event, images)
