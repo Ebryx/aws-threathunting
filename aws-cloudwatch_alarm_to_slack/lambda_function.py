@@ -75,7 +75,7 @@ def report_to_slack(msg, images):
 
         attachments = [{
             'color': '#ff0000',
-            'title': 'SAMPLE via python\n' + title_part,
+            'title': title_part,
             'text': m_parsed_msg,
             'fallback': title_part
         }]
@@ -93,8 +93,9 @@ def report_to_slack(msg, images):
         result = requests.post(
             base64.b64decode(
                 base64.b64decode(
-                    base64.b64decode(os.environ.get('SCK_WHK')))
-                ).decode(),
+                    base64.b64decode(os.environ.get('SCK_WHK'))
+                )
+            ).decode(),
             data=json.dumps(slack_message_to_post),
             headers={'Content-Type': 'application/json'})
 
@@ -226,12 +227,13 @@ def lambda_handler(event, context):
             s3 = boto3.client('s3')
             bucket = s3path.split('.com/')[1].split('/')[0].strip('/')
             path = s3path.split(bucket)[-1]
-            path = os.path.join(path, im_name).lstrip('/')
+            path = os.path.join(path, os.path.basename(im_name)).lstrip('/')
 
+            logger.info('%s -> %s', im_name, os.path.join(bucket, path))
             s3.upload_file(im_name, bucket, path,
                            ExtraArgs={'ACL': 'public-read'})
 
-            image['url'] = os.path.join(s3path, im_name)
+            image['url'] = os.path.join(s3path, os.path.basename(im_name))
             os.remove(im_name)
 
     if not os.environ.get('SCK_WHK'):
